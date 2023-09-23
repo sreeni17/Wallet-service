@@ -1,7 +1,7 @@
 {
     "environment": "development",
     "wallet_port": 3000,
-    "procure-db": {
+    "wallet-db": {
         "username": "postgres",
         "password": "admin",
         "database": "db_wallet",

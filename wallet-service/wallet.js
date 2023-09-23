@@ -10,10 +10,14 @@ app.use(express.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
+require('./server/sequelize/models');
 
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to wallet application." });
-  });
+const routers = require('./routes/index');
+
+app.use('/api', routers);
+// app.get("/", (req, res) => {
+//     res.json({ message: "Welcome to wallet application." });
+//   });
 
 const walletPort = config.get('wallet_port');
 app.listen(walletPort, () => {
