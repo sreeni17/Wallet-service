@@ -18,12 +18,8 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: false,
       },
-      name: {
+      description: {
         type: Sequelize.STRING(255),
-        allowNull: false,
-      },
-      balance: {
-        type: Sequelize.DOUBLE,
         allowNull: false,
       },
       balance: {
@@ -34,18 +30,18 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_by: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
     });
-    await queryInterface.addIndex(tableName, ['wallet_id', 'transaction_id' ], {
-      indexName: 'wallet_transactions_unique_index',
-      indicesType: 'UNIQUE',
+    await queryInterface.addIndex(tableName, ['wallet_id', 'transaction_id'], {
+      indexName: 'wallet_transactionss_index',
+      unique: true,
     });
 
   },

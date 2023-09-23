@@ -8,6 +8,11 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/database.js')[env];
 const db = {};
+config.define = {
+  underscored: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+};
 
 let sequelize;
 if (config.use_env_variable) {
