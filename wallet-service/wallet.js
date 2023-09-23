@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
+require('./sequelize/index');
+
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to wallet application." });
   });
