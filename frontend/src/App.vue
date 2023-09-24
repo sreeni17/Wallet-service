@@ -1,12 +1,14 @@
 <template>
   <HelloWorld msg="Welcome to Wallet Application"/>
-  <router-link to="/wallet">Go to Wallet</router-link>
+  <!-- <div v-if="showWallet">
+    <router-link to="/wallet">Go to Wallet</router-link>
+  </div> -->
+  
   <router-view></router-view>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
-// import WalletSubmit from './components/WalletSubmit.vue';
 
 export default {
   name: 'App',
@@ -14,6 +16,19 @@ export default {
     HelloWorld,
     // WalletSubmit,
   },
+  data() {
+    return {
+      showWallet: true,
+    };
+  },
+  computed: {
+
+  },
+  created() {
+    if(this.$route.path.includes('wallet')) {
+      this.showWallet = false;
+    }
+  }
 };
 </script>
 

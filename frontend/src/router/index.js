@@ -14,7 +14,9 @@ const initializeRouter = () => {
       },
     });
     router.beforeEach((to, from, next) => {
-      if (!to.matched.length) {
+      if (to.path === '/') {
+        next({ name: 'Wallet' });
+      }else if (!to.matched.length) {
         next({ name: 'Error', params: { type: 'page-not-found' } });
       } else {
         next();
