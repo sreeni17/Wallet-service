@@ -13,5 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
       tableName: 'Wallet',
     });
+    // wallet.associate  = (models) => {
+    //   wallet.hasMany(models.WalletTransactions, {
+    //     foreignKey: 'wallet_id',
+    //     // as: 'transactions'
+    //   });
+    // }
     return wallet;
   };

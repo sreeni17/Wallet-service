@@ -19,11 +19,18 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      amount: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
       }
     },
     {
       freezeTableName: true,
       tableName: 'WalletTransactions',
     });
+    // WalletTransactions.associate = (models) => {
+    //   WalletTransactions.belongsTo(models.Wallet)
+    // }
     return WalletTransactions;
   };

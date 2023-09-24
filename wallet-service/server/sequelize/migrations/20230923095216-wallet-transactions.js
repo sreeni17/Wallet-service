@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: false,
       },
+      amount: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+      },
       type: {
         type: Sequelize.INTEGER,
         allowNull: false,
