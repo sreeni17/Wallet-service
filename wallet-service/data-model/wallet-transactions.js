@@ -29,6 +29,21 @@ class WalletTransactionsDataModel {
       })
     }
   }
+
+  static async listAllTransaction(walletId) {
+    if(walletId) {
+      return WalletTransactions.findAll({
+        where: {
+          wallet_id: walletId,
+        },
+        raw: true,
+        order: [
+          ['updated_at', 'DESC'],
+          ['id', 'DESC'],
+        ],
+      });
+    }
+  }
 }
 
 module.exports = WalletTransactionsDataModel;

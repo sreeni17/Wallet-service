@@ -1,12 +1,13 @@
 const { v4: uuidv4 } = require('uuid');
 const { sequelize } = require('../server/sequelize/models/index');
 const { TransactionType } = require('../constants/application');
+const ExcelGenerator = require('../lib/excel-generator');
 const WalletValidation = require('../validators/wallet');
 const WalletModel = require('../data-model/wallet');
 const WalletTransactionsDataModel = require('../data-model/wallet-transactions');
 const WalletPresenter = require('../presenter/wallet');
 
-async function test(req, res) {
+async function test(res) {
   try {
     res.json({ data: 'test check' });
   } catch (err) {
@@ -15,7 +16,7 @@ async function test(req, res) {
 }
 
 function computeBalance(currBalance, amount) {
-  if(currBalance && amount) {
+  if (currBalance && amount) {
     return parseFloat(currBalance.toFixed(4)) + parseFloat(amount.toFixed(4));
   }
   return null;
@@ -30,7 +31,7 @@ async function createWallet(req, res) {
         res.status(400);
         res.json({ errors: walletValidate.errors });
       } else {
-        await sequelize.transaction( async (t1) => {
+        await sequelize.transaction(async (t1) => {
           try {
             const validValue = walletValidate?.value;
             const walletData = [{
@@ -59,19 +60,18 @@ async function createWallet(req, res) {
             res.json({ data: presenterData });
             return;
           } catch (err) {
-            throw err;            
+            throw err;
           }
         });
       }
-    }  
+    }
   } catch (err) {
     throw err;
   }
 }
 
-
 async function creditDebitWallet(req, res) {
-  try{
+  try {
     const walletData = req.body;
     const { walletId } = req.params;
     const walletValidate = new WalletValidation('transact-wallet');
@@ -80,9 +80,9 @@ async function creditDebitWallet(req, res) {
         res.status(400);
         res.json({ errors: walletValidate.errors });
       } else {
-        await sequelize.transaction( async (t1) => {
+        await sequelize.transaction(async (t1) => {
           try {
-            const walletData  = await WalletModel.findById(walletId, true);
+            const walletData = await WalletModel.findById(walletId, true);
             const validValue = walletValidate?.value;
             let transactionResponse = {};
             if (walletData?.id) {
@@ -98,7 +98,7 @@ async function creditDebitWallet(req, res) {
                 updated_at: new Date(),
               }];
               transactionResponse = await WalletTransactionsDataModel.bulkCreateUpdate(walletTransactionData, t1);
-              if(transactionResponse?.[0]?.id) {
+              if (transactionResponse?.[0]?.id) {
                 walletData.balance = balanceComputed;
                 await WalletModel.bulkCreateUpdate([walletData], t1);
                 const presenterData = new WalletPresenter().transactJson(transactionResponse?.[0]);
@@ -110,7 +110,7 @@ async function creditDebitWallet(req, res) {
               res.status(400);
               res.json({ error: 'Invalid Wallet Id' });
             }
-          } catch(err) {
+          } catch (err) {
             throw err;
           }
         });
@@ -119,7 +119,7 @@ async function creditDebitWallet(req, res) {
       res.status(400);
       res.json({ error: 'Payload Missing' });
     }
-  }catch(err) {
+  } catch (err) {
     throw err;
   }
 }
@@ -134,42 +134,63 @@ async function listTransactions(req, res) {
     } else {
       const validValue = walletValidate?.value;
       const walletId = validValue?.walletId;
-      const walletData  = await WalletModel.findById(walletId);
+      const walletData = await WalletModel.findById(walletId);
       if (walletData?.id) {
         const options = {
           skip: validValue.skip,
           limit: validValue.limit,
         };
-        const transactionsData = await WalletTransactionsDataModel.listTransaction(walletId, options);
+        const transactionsData = await WalletTransactionsDataModel.listAllTransaction(walletId, options);
         const presenterData = new WalletPresenter().listTransactions(transactionsData);
         res.status(200);
         res.json({ data: presenterData });
         return;
-      } else {
-        res.status(400);
-        res.json({ error: 'Invalid Wallet Id' });
       }
+      res.status(400);
+      res.json({ error: 'Invalid Wallet Id' });
     }
-  } catch(err) {
+  } catch (err) {
     throw err;
   }
 }
 
 async function listWallet(req, res) {
-  try{
+  try {
     const { id: walletId } = req.params;
-    if(walletId) {
-      const walletData  = await WalletModel.findById(walletId);
+    if (walletId) {
+      const walletData = await WalletModel.findById(walletId);
       if (walletData?.id) {
         const presenterData = new WalletPresenter().walletJson(walletData);
-          res.status(200);
-          res.json({ data: presenterData });
-          return;
+        res.status(200);
+        res.json({ data: presenterData });
+        return;
       }
     }
     res.status(400);
     res.json({ error: 'Invalid Wallet Id' });
-  } catch(err) {
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function exportTransactions(req, res) {
+  try {
+    const { walletId } = req.params;
+    if (walletId) {
+      const walletData = await WalletModel.findById(walletId);
+      if (walletData?.id) {
+        const walletTransactions = await WalletTransactionsDataModel.listAllTransaction(walletData?.id);
+        const presenterData = new WalletPresenter().exportJson(walletTransactions);
+        const excelGen = new ExcelGenerator(presenterData, 'transactions');
+        const excelData = await excelGen.generateXls();
+        res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.end(excelData);
+        return;
+      }
+    }
+    res.status(400);
+    res.json({ error: 'Invalid Wallet Id' });
+  } catch (err) {
     throw err;
   }
 }
@@ -179,4 +200,5 @@ module.exports = {
   creditDebitWallet,
   listTransactions,
   listWallet,
+  exportTransactions,
 };
