@@ -15,9 +15,6 @@ require('./server/sequelize/models');
 const routers = require('./routes/index');
 
 app.use('/api', routers);
-// app.get("/", (req, res) => {
-//     res.json({ message: "Welcome to wallet application." });
-//   });
 
 const walletPort = config.get('wallet_port');
 app.listen(walletPort, () => {
