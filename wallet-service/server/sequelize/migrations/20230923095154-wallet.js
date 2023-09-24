@@ -17,18 +17,18 @@ module.exports = {
       type: Sequelize.DOUBLE,
       allowNull: false,
     },
+    created_at: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
     updated_at: {
       allowNull: false,
       type: Sequelize.DATE,
     },
-    updated_by: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
   });
   await queryInterface.addIndex(tableName, ['name'], {
     indexName: 'wallet_unique_index',
-    indicesType: 'UNIQUE',
+    unique: true,
   });
 
   },
