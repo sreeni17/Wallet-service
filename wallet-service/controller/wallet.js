@@ -140,7 +140,7 @@ async function listTransactions(req, res) {
           skip: validValue.skip,
           limit: validValue.limit,
         };
-        const transactionsData = await WalletTransactionsDataModel.listAllTransaction(walletId, options);
+        const transactionsData = await WalletTransactionsDataModel.listTransaction(walletId, options);
         const presenterData = new WalletPresenter().listTransactions(transactionsData);
         res.status(200);
         res.json({ data: presenterData });
