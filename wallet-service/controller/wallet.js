@@ -22,7 +22,7 @@ function computeBalance(currBalance, amount) {
   return null;
 }
 
-async function createWallet(req, res) {
+async function createWallet(req, res, next) {
   try {
     const walletData = req.body;
     const walletValidate = new WalletValidation('create-wallet');
@@ -66,11 +66,11 @@ async function createWallet(req, res) {
       }
     }
   } catch (err) {
-    throw err;
+    next(err);
   }
 }
 
-async function creditDebitWallet(req, res) {
+async function creditDebitWallet(req, res, next) {
   try {
     const walletData = req.body;
     const { walletId } = req.params;
@@ -120,11 +120,11 @@ async function creditDebitWallet(req, res) {
       res.json({ error: 'Payload Missing' });
     }
   } catch (err) {
-    throw err;
+    next(err);
   }
 }
 
-async function listTransactions(req, res) {
+async function listTransactions(req, res, next) {
   try {
     const transactData = req.query;
     const walletValidate = new WalletValidation('list-transactions');
@@ -154,11 +154,11 @@ async function listTransactions(req, res) {
       res.json({ error: 'Invalid Wallet Id' });
     }
   } catch (err) {
-    throw err;
+    next(err);
   }
 }
 
-async function listWallet(req, res) {
+async function listWallet(req, res, next) {
   try {
     const { id: walletId } = req.params;
     if (walletId) {
@@ -173,11 +173,11 @@ async function listWallet(req, res) {
     res.status(400);
     res.json({ error: 'Invalid Wallet Id' });
   } catch (err) {
-    throw err;
+    next(err);
   }
 }
 
-async function exportTransactions(req, res) {
+async function exportTransactions(req, res, next) {
   try {
     const { walletId } = req.params;
     if (walletId) {
@@ -195,7 +195,7 @@ async function exportTransactions(req, res) {
     res.status(400);
     res.json({ error: 'Invalid Wallet Id' });
   } catch (err) {
-    throw err;
+    next(err);
   }
 }
 module.exports = {
