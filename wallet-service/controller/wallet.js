@@ -140,8 +140,12 @@ async function listTransactions(req, res) {
           skip: validValue.skip,
           limit: validValue.limit,
         };
+        const walletCondition = {
+          wallet_id: walletData?.id,
+        };
+        const getAllCount = await WalletTransactionsDataModel.getAllCountByConditon(walletCondition);
         const transactionsData = await WalletTransactionsDataModel.listTransaction(walletId, options);
-        const presenterData = new WalletPresenter().listTransactions(transactionsData);
+        const presenterData = new WalletPresenter().listTransactions(transactionsData, getAllCount);
         res.status(200);
         res.json({ data: presenterData });
         return;

@@ -33,16 +33,16 @@ const exportTransaction = async (walletId) => {
     const result = await axios({
       url: `/transactions_export/${walletId}`,
       method: 'GET',
-      responseType: 'blob',
+      responseType: 'arraybuffer',
     });
     if (result) {
-      const url = window.URL.createObjectURL(new Blob([result]));
+      const url = window.URL.createObjectURL(new Blob([result], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
       const link = document.createElement('a');
       link.href = url;
-      const now = new Date().toISOString();
-      link.setAttribute('download', `transactions-${now}.xlsx`);
+      link.setAttribute('download', 'transactions.xlsx'); // or any other extension
       document.body.appendChild(link);
       link.click();
+      link.remove();
     }
     return true;
   } catch (error) {

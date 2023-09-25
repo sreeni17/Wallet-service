@@ -1,3 +1,6 @@
+const {
+  fn, col,
+} = require('sequelize');
 const { pageSizeLimit } = require('../constants/application');
 const { difference } = require('lodash');
 const { WalletTransactions } = require('../server/sequelize/models/index');
@@ -11,6 +14,16 @@ class WalletTransactionsDataModel {
       });
     }
     return [];
+  }
+
+  static async getAllCountByConditon(condition) {
+    const limitData = await WalletTransactions.findAll({
+      where: condition,
+      attributes: [[fn('COUNT', col('id')), 'id']],
+      raw: true,
+    });
+    const limit = parseFloat(limitData && limitData[0] && limitData[0].id) || 0;
+    return limit;
   }
 
   static async listTransaction(walletId, options = {}) {

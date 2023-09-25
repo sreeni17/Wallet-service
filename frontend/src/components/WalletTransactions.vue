@@ -15,18 +15,17 @@
       </p>
     </div>
     <div>
-      <el-table :data="transactionsData" style="width: 100%"
-                :default-sort="{ prop: 'amount', order: 'descending' }"
-      >
-        <el-table-column prop="date" label="Date" width="180" />
+      <el-table :data="transactionsData" style="width: 100%">
+        <el-table-column prop="date" label="Date" sortable width="180" />
         <el-table-column prop="type" label="Type" width="180" />
         <el-table-column prop="description" label="Description" width="200" />
-        <el-table-column prop="amount" label="Amount" width="180" />
+        <el-table-column prop="amount" label="Amount" sortable width="180" />
         <el-table-column prop="balance" label="Balance" />
       </el-table>
       <el-pagination
         layout="prev, pager, next"
-        :total="transactionsData.length"
+        :total="totalTransactions"
+        :page-size="limit"
         @current-change="setPage"
       />
     </div>
@@ -43,9 +42,17 @@ export default {
     return {
       currentWallet: null,
       transactionsData: [],
-      limit: 2,
+      limit: 10,
       page: 1,
     };
+  },
+  computed: {
+    totalTransactions() {
+      if (this.transactionsData?.length) {
+        return this.transactionsData[0]?.totalCount;
+      }
+      return 0;
+    },
   },
   async created() {
     const walletData = JSON.parse(localStorage.getItem('wallet'));

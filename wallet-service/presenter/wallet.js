@@ -30,10 +30,10 @@ class WalletPresenter {
     return responseData;
   }
 
-  listTransactions(transactionData = []) {
+  listTransactions(transactionData = [], getAllCount) {
     const responseData = [];
     if (transactionData?.length) {
-      transactionData.forEach((transaction) => {
+      transactionData.forEach((transaction, ind) => {
         const respObj = {
           id: transaction.id,
           walletId: transaction.wallet_id?.toString(),
@@ -43,6 +43,9 @@ class WalletPresenter {
           date: moment(transaction.created_at).format('MMMM Do YYYY, h:mm:ss a'),
           type: TransactionTypeInvert[transaction.type],
         };
+        if(ind === 0) {
+          respObj.totalCount = getAllCount;
+        }
         responseData.push(respObj);
       });
     }
