@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const { isEmpty } = require('lodash');
+const JoiValidationError = require('../error-handler/error-helper');
 
 class WalletValidation {
   constructor(type) {
@@ -52,7 +53,7 @@ class WalletValidation {
     const { error, value } = schema.validate(data);
     if (error) {
       this.value = {};
-      this.errors = error;
+      this.errors = JoiValidationError.construct(error);
       return false;
     }
     this.value = value;

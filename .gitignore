@@ -3,6 +3,7 @@ package-lock.json
 /npm-debug.log*
 /nodemon.log
 /logs
-
+frontend/yarn.lock
+frontend/node_modules
 wallet-service/node_modules
 wallet-service/package-lock.json
