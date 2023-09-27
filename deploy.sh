@@ -17,7 +17,7 @@ echo "Make bootstrap"
 make bootstrap
 echo "bootstrap completed"
 
-echo "start superadmin build"
+echo "start frontend build"
 cd frontend/
 yarn build
 cd ../
