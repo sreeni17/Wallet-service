@@ -22,7 +22,7 @@ Run Make Bootstrap
 Run Migrations
 
 ```bash
-  cd /root/Wallet-service/service
+  cd /root/Wallet-service
   npx sequelize-cli db:migrate
 ```
 
@@ -45,10 +45,5 @@ To Run Wallet Service
 Go to the Frontend Folder from Root Folder to run the Frontend Services
 ```bash
   cd frontend/
-```
-
-To Run shipper frontend
-```bash
-  cd shipper/
   yarn serve
 ```
