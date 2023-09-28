@@ -7,7 +7,7 @@ const WalletModel = require('../data-model/wallet');
 const WalletTransactionsDataModel = require('../data-model/wallet-transactions');
 const WalletPresenter = require('../presenter/wallet');
 
-async function test(res) {
+async function test(req, res) {
   try {
     res.json({ data: 'test check' });
   } catch (err) {
@@ -17,7 +17,8 @@ async function test(res) {
 
 function computeBalance(currBalance, amount) {
   if (currBalance && amount) {
-    return parseFloat(currBalance.toFixed(4)) + parseFloat(amount.toFixed(4));
+    const computed = parseFloat(currBalance.toFixed(4)) + parseFloat(amount.toFixed(4));
+    return parseFloat(computed).toFixed(4);
   }
   return null;
 }

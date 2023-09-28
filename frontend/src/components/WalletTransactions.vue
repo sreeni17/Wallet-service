@@ -42,7 +42,7 @@ export default {
     return {
       currentWallet: null,
       transactionsData: [],
-      limit: 10,
+      limit: 4,
       page: 1,
     };
   },
@@ -55,26 +55,54 @@ export default {
     },
   },
   async created() {
-    const walletData = JSON.parse(localStorage.getItem('wallet'));
-    if (walletData.id) {
-      this.currentWallet = walletData;
-      const skip = (this.page - 1) * this.limit;
-      const query = `walletId=${walletData.id}&skip=${skip}&limit=${this.limit}`;
-      const transactData = await ApiFactory.getTransaction(query);
-      if (transactData?.data?.data) {
-        this.transactionsData = transactData?.data?.data;
+    try {
+      const walletData = JSON.parse(localStorage.getItem('wallet'));
+      if (walletData.id) {
+        this.currentWallet = walletData;
+        const skip = (this.page - 1) * this.limit;
+        const query = `walletId=${walletData.id}&skip=${skip}&limit=${this.limit}`;
+        const transactData = await ApiFactory.getTransaction(query);
+        if (transactData.status === 200) {
+          if (transactData?.data?.data) {
+            this.transactionsData = transactData?.data?.data;
+          }
+        } else if (transactData.error) {
+          this.$message({
+            message: transactData.error,
+            type: 'error',
+          });
+        }
       }
+    } catch (err) {
+      this.$message({
+        message: 'Something Went Wrong',
+        type: 'error',
+      });
     }
   },
   methods: {
     async setPage(page) {
-      if (this.currentWallet && page) {
-        const skip = (page - 1) * this.limit;
-        const query = `walletId=${this.currentWallet.id}&skip=${skip}&limit=${this.limit}`;
-        const transactData = await ApiFactory.getTransaction(query);
-        if (transactData?.data?.data) {
-          this.transactionsData = transactData?.data?.data;
+      try {
+        if (this.currentWallet && page) {
+          const skip = (page - 1) * this.limit;
+          const query = `walletId=${this.currentWallet.id}&skip=${skip}&limit=${this.limit}`;
+          const transactData = await ApiFactory.getTransaction(query);
+          if (transactData.status === 200) {
+            if (transactData?.data?.data) {
+              this.transactionsData = transactData?.data?.data;
+            }
+          } else if (transactData.error) {
+            this.$message({
+              message: transactData.error,
+              type: 'error',
+            });
+          }
         }
+      } catch (err) {
+        this.$message({
+          message: 'Something Went Wrong',
+          type: 'error',
+        });
       }
     },
     async routeTransactions() {
