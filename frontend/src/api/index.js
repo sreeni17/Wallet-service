@@ -1,12 +1,13 @@
 /* eslint-disable no-useless-catch */
 import axios from '../../axios';
+import HandleResponses from '../helpers/error-handler';
 
 const setupWallet = async (data) => {
   try {
     const result = await axios.post('/wallet/setup', data);
     return result;
   } catch (error) {
-    throw error;
+    return HandleResponses.Status(error);
   }
 };
 
@@ -15,7 +16,7 @@ const setupTransaction = async (data, walletId) => {
     const result = await axios.post(`/transact/${walletId}`, data);
     return result;
   } catch (error) {
-    throw error;
+    return HandleResponses.Status(error);
   }
 };
 
@@ -24,7 +25,7 @@ const getTransaction = async (queryParams) => {
     const result = await axios.get(`/transactions?${queryParams}`);
     return result;
   } catch (error) {
-    throw error;
+    return HandleResponses.Status(error);
   }
 };
 
@@ -46,7 +47,7 @@ const exportTransaction = async (walletId) => {
     }
     return true;
   } catch (error) {
-    throw error;
+    return HandleResponses.Status(error);
   }
 };
 

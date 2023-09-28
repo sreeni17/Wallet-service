@@ -29,12 +29,9 @@
           <el-form-item label="Transaction Amount" prop="name">
             <el-input v-model="transactionForm.amount" min="0"
                       onkeypress="return (event.charCode !=8 && event.charCode ==0 ||
-            (event.charCode >= 48 && event.charCode <= 57))"
+            (event.charCode >= 46 && event.charCode <= 57))"
             />
           </el-form-item>
-          <!-- <el-form-item label="Transaction Type">
-
-          </el-form-item> -->
           <el-form-item label="Transaction description" prop="balance">
             <el-input v-model="transactionForm.description" />
           </el-form-item>
@@ -83,53 +80,77 @@ export default {
   },
   methods: {
     async onSumbit() {
-      const payloadData = {
-        balance: this.walletForm.balance ? this.walletForm.balance : 0,
-        name: this.walletForm.name,
-      };
-      const result = await ApiFactory.setupWallet(payloadData);
-      if (result.status === 200) {
-        this.$message({
-          message: 'Wallet created successfully',
-          type: 'success',
-        });
-        if (result?.data?.data) {
-          this.currentWallet = result?.data?.data;
-          localStorage.setItem('wallet', JSON.stringify(this.currentWallet));
-        }
-
-        this.walletForm = {
-          name: '',
-          balance: null,
+      try {
+        const payloadData = {
+          balance: this.walletForm.balance ? this.walletForm.balance : 0,
+          name: this.walletForm.name,
         };
+        const result = await ApiFactory.setupWallet(payloadData);
+        if (result.status === 200) {
+          this.$message({
+            message: 'Wallet created successfully',
+            type: 'success',
+          });
+          if (result?.data?.data) {
+            this.currentWallet = result?.data?.data;
+            localStorage.setItem('wallet', JSON.stringify(this.currentWallet));
+          }
+
+          this.walletForm = {
+            name: '',
+            balance: null,
+          };
+        } else if (result.error) {
+          this.$message({
+            message: result.error,
+            type: 'error',
+          });
+        }
+      } catch (err) {
+        this.$message({
+          message: 'Something Went Wrong',
+          type: 'error',
+        });
       }
     },
     async onSumbitTransaction() {
-      const payloadData = {
-        amount: this.transactionForm.amount ? this.transactionForm.amount : null,
-        description: this.transactionForm.description,
-      };
-      if (!this.transactionForm.credit) {
-        payloadData.amount = -payloadData.amount;
-      }
-      const result = await ApiFactory.setupTransaction(payloadData, this.currentWallet.id);
-      if (result.status === 200) {
-        this.$message({
-          message: 'Transaction created successfully',
-          type: 'success',
-        });
-        if (result?.data?.data) {
-          // this.currentWallet = result?.data?.data;
-          const currBalence = result?.data?.data.balance;
-          this.currentWallet.balance = currBalence;
-          localStorage.setItem('wallet', JSON.stringify(this.currentWallet));
-        }
-
-        this.transactionForm = {
-          amount: null,
-          credit: true,
-          description: null,
+      try {
+        const payloadData = {
+          amount: this.transactionForm.amount ? this.transactionForm.amount : null,
+          description: this.transactionForm.description,
         };
+        if (!this.transactionForm.credit) {
+          payloadData.amount = -payloadData.amount;
+        }
+        const result = await ApiFactory.setupTransaction(payloadData, this.currentWallet.id);
+        if (result.status === 200) {
+          this.$message({
+            message: 'Transaction created successfully',
+            type: 'success',
+          });
+          if (result?.data?.data) {
+          // this.currentWallet = result?.data?.data;
+            const currBalence = result?.data?.data.balance;
+            this.currentWallet.balance = currBalence;
+            localStorage.setItem('wallet', JSON.stringify(this.currentWallet));
+          }
+
+          this.transactionForm = {
+            amount: null,
+            credit: true,
+            description: null,
+          };
+        } else if (result.error) {
+          this.$message({
+            message: result.error,
+            type: 'error',
+          });
+        }
+      } catch (err) {
+        this.$message({
+          message: 'Something Went Wrong',
+          type: 'error',
+        });
       }
     },
     routeTransactions() {
