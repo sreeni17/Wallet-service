@@ -1,7 +1,6 @@
 #!/bin/sh
 
 Copy the config from cloud
-
 echo "Copy the config from cloud..."
 aws s3 cp s3://wallet-highlevel ./config --recursive
 echo "copied"
