@@ -1,10 +1,9 @@
 <template>
-  <HelloWorld msg="Welcome to Wallet Application"/>
-  <!-- <div v-if="showWallet">
-    <router-link to="/wallet">Go to Wallet</router-link>
-  </div> -->
-  
-  <router-view></router-view>
+  <div class="bg-purple" />
+  <HelloWorld msg="Welcome to Code Generation Application" />
+
+  <router-view />
+  <div class="bg-purple-bottom" />
 </template>
 
 <script>
@@ -25,10 +24,10 @@ export default {
 
   },
   created() {
-    if(this.$route.path.includes('wallet')) {
+    if (this.$route.path.includes('wallet')) {
       this.showWallet = false;
     }
-  }
+  },
 };
 </script>
 
@@ -39,6 +38,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.bg-purple {
+  background: rgb(127, 24, 127);
+  height: 60px;
+  right: 0;
+  left: 0;
+}
+.bg-purple-bottom {
+  background: rgb(127, 24, 127);
+  height: 60px;
+  bottom: 0px;
+  position: absolute;
+  width: 100%;
+  right: 0;
+  left: 0;
 }
 </style>
