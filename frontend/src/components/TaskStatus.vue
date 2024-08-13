@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-import { useRouter } from 'vue-router';
 import ApiFactory from '@/api/index';
 
 export default {
@@ -49,23 +48,31 @@ export default {
         job_id: '',
       },
       jobId: null,
-      tableData: [{
-        jobId: '2016-05-03',
-        status: 'Tom',
-        url: 'https://www.syncfusion.com/vue-components',
-      }],
+      tableData: [
+      ],
     };
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       try {
         if (this.form && this.form.job_id) {
-          this.jobId = this.form.job_id;
-
-          this.$message({
-            message: 'created job successfully',
-            type: 'success',
-          });
+          const payload = {
+            jobId: this.form.job_id,
+          };
+          const result = await ApiFactory.taskStatus(payload);
+          if (result.status === 200) {
+            this.jobId = this.form.job_id;
+            this.$message({
+              message: 'Fetched job successfully',
+              type: 'success',
+            });
+            const tableRecord = {
+              jobId: this.jobId,
+              status: 'ok',
+              url: 'aaa',
+            };
+            this.tableData.push(tableRecord);
+          }
         }
       } catch (err) {
         this.$message({
@@ -83,6 +90,7 @@ export default {
   cursor: pointer;
 }
 .table .el-table{
+    margin-top: 100px;
     width: 80%;
     margin: auto;
 }

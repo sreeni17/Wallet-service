@@ -3,12 +3,14 @@
     <el-form ref="form" :model="form" label-width="300px" class="form">
       <div v-for="(item, index) in items" :key="index">
         <label :for="`data[${index}]name`" class="text">Task: </label>
-        <input v-model="item.task" :name="`data[${index}]task`" required class="input">
+        <input v-model="item.task" :name="`data[${index}]task`"
+               placeholder="Please enter task" required class="input"
+        >
 
         <label :for="`data[${index}]email`" class="text">    Agent:</label>
-        <el-select v-model="item.agent" placeholder="Please select your agent">
-          <el-option label="Agent one" value="Agent one" />
-          <el-option label="Agent two" value="Agent two" />
+        <el-select v-model="item.agent" placeholder="Please select agent" class="input">
+          <el-option label="Agent one Code Writer" value="Agent one" />
+          <el-option label="Agent two Code Reviewer" value="Agent two" />
         </el-select>
         &nbsp;
         <button type="button" @click="items.splice(index, 1)">
@@ -21,16 +23,16 @@
       </div>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">
+        <el-button type="primary" class="create-button" @click="onSubmit">
           Create
         </el-button>
       </el-form-item>
     </el-form>
-    <div>
+    <div class="job-status">
       <p>
-        <router-link :to="{ name: 'TaskStatus' }">
+        <el-button type="primary" @click="redirectToStatus">
           Check Job Status
-        </router-link>
+        </el-button>
       </p>
     </div>
   </div>
@@ -87,6 +89,9 @@ export default {
         });
       }
     },
+    redirectToStatus() {
+      this.$router.push({ name: 'TaskStatus' });
+    },
   },
 };
 </script>
@@ -103,5 +108,16 @@ export default {
 .input {
     width: 200px;
     height: 30px;
+}
+.create-button {
+    margin-left: 600px;
+    margin-top: 50px;
+    width: 100px;
+}
+.job-status {
+    margin-left: 850px;
+    margin-top: 50px;
+    width: 200px;
+    height: 50px;
 }
 </style>

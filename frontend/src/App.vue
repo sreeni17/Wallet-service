@@ -1,6 +1,9 @@
 <template>
-  <div class="bg-purple" />
-  <HelloWorld msg="Welcome to Code Generation Application" />
+  <div class="bg-purple">
+    <img src="./assets/wayfair.png" class="image1">
+    <h2 class="wayfair-header">Wayfair</h2>
+  </div>
+  <HelloWorld msg="Welcome to GATE - GenAI Agent Task Executor" />
 
   <router-view />
   <div class="bg-purple-bottom" />
@@ -8,16 +11,17 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import Logo from './assets/logo.png';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    // WalletSubmit,
   },
   data() {
     return {
       showWallet: true,
+      Logo,
     };
   },
   computed: {
@@ -54,4 +58,18 @@ export default {
   right: 0;
   left: 0;
 }
+.image1 {
+  width:50px;
+  height:60px;
+  left: 10px;
+  position: absolute;
+}
+.wayfair-header {
+  color: white;
+  left: 70px;
+  font-size:xx-large;
+  position: absolute;
+  top: 0px;
+
+  }
 </style>
