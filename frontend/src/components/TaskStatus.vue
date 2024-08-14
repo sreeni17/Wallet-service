@@ -15,12 +15,14 @@
       <br>
     </el-form>
     <div class="table">
-      <el-table v-if="jobId"
-                :data="tableData"
+      <el-table
+        v-if="jobId"
+        :data="tableData"
+        header-row-class-name="header-table"
       >
         <el-table-column
           prop="jobId"
-          label="JobId"
+          label="Job Id"
           width="180"
         />
         <el-table-column
@@ -68,8 +70,8 @@ export default {
             });
             const tableRecord = {
               jobId: this.jobId,
-              status: 'ok',
-              url: 'aaa',
+              status: result.data.job_status,
+              url: result.data.url,
             };
             this.tableData.push(tableRecord);
           }
@@ -90,13 +92,17 @@ export default {
   cursor: pointer;
 }
 .table .el-table{
-    margin-top: 100px;
-    width: 80%;
-    margin: auto;
+    margin-top: 30px;
+    width: 50%;
+    margin-left: 500px;
 }
 .text {
   font-size: 30px;
   font-weight: 500;
   font-family: 'Courier New';
+}
+.header-table {
+    font-size: 20px;
+    font-weight: 10;
 }
 </style>
