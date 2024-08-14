@@ -51,9 +51,29 @@ const exportTransaction = async (walletId) => {
   }
 };
 
+const createJob = async (data) => {
+  try {
+    const result = await axios.post('/create_job', data);
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
+
+const taskStatus = async (data) => {
+  try {
+    const result = await axios.post('/status', data);
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
+
 export default {
   setupWallet,
   setupTransaction,
   getTransaction,
   exportTransaction,
+  createJob,
+  taskStatus,
 };

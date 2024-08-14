@@ -1,5 +1,7 @@
 import WalletSubmit from './WalletSubmit.vue';
 import WalletTransactions from './WalletTransactions.vue';
+import Task from './Task.vue';
+import TaskStatus from './TaskStatus.vue';
 
 const routes = [
   {
@@ -8,6 +10,14 @@ const routes = [
     component: WalletSubmit,
     meta: {
       title: 'Wallet',
+    },
+  },
+  {
+    path: '/task',
+    name: 'Task',
+    component: Task,
+    meta: {
+      title: 'Task',
     },
   },
   {
@@ -24,6 +34,14 @@ const routes = [
     component: WalletTransactions,
     meta: {
       title: 'Transactions',
+    },
+  },
+  {
+    path: '/task/status',
+    name: 'TaskStatus',
+    component: TaskStatus,
+    meta: {
+      title: 'TaskStatus',
     },
   },
 ];

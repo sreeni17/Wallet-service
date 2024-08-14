@@ -1,34 +1,37 @@
 <template>
-  <HelloWorld msg="Welcome to Wallet Application"/>
-  <!-- <div v-if="showWallet">
-    <router-link to="/wallet">Go to Wallet</router-link>
-  </div> -->
-  
-  <router-view></router-view>
+  <div class="bg-purple">
+    <img src="./assets/wayfair.png" class="image1">
+    <h2 class="wayfair-header">Wayfair</h2>
+  </div>
+  <HelloWorld msg="Welcome to GATE - GenAI Agent Task Executor" />
+
+  <router-view />
+  <div class="bg-purple-bottom" />
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import Logo from './assets/logo.png';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    // WalletSubmit,
   },
   data() {
     return {
       showWallet: true,
+      Logo,
     };
   },
   computed: {
 
   },
   created() {
-    if(this.$route.path.includes('wallet')) {
+    if (this.$route.path.includes('wallet')) {
       this.showWallet = false;
     }
-  }
+  },
 };
 </script>
 
@@ -39,6 +42,34 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+.bg-purple {
+  background: rgb(127, 24, 127);
+  height: 60px;
+  right: 0;
+  left: 0;
+}
+.bg-purple-bottom {
+  background: rgb(127, 24, 127);
+  height: 60px;
+  bottom: 0px;
+  position: absolute;
+  width: 100%;
+  right: 0;
+  left: 0;
+}
+.image1 {
+  width:50px;
+  height:60px;
+  left: 10px;
+  position: absolute;
+}
+.wayfair-header {
+  color: white;
+  left: 70px;
+  font-size:xx-large;
+  position: absolute;
+  top: 0px;
+
+  }
 </style>
