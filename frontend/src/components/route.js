@@ -1,6 +1,7 @@
 import WalletSubmit from './WalletSubmit.vue';
 import WalletTransactions from './WalletTransactions.vue';
 import Task from './Task.vue';
+import Hire from './Hire.vue';
 import TaskStatus from './TaskStatus.vue';
 
 const routes = [
@@ -10,6 +11,14 @@ const routes = [
     component: WalletSubmit,
     meta: {
       title: 'Wallet',
+    },
+  },
+  {
+    path: '/hire',
+    name: 'Hire',
+    component: Hire,
+    meta: {
+      title: 'Hire',
     },
   },
   {
