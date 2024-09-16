@@ -1,8 +1,20 @@
 <template>
   <div class="bg-purple">
     <img src="./assets/wayfair.png" class="image1">
-    <h2 class="wayfair-header">Wayfair</h2>
+    <h2 class="wayfair-header">
+      Wayfair
+    </h2>
   </div>
+
+  <el-breadcrumb separator="/" class="breadcrumb">
+    <el-breadcrumb-item :to="{ path: '/hire' }">
+      Homepage
+    </el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/resume-upload' }">
+      Resumes
+    </el-breadcrumb-item>
+    <el-breadcrumb-item>Reports</el-breadcrumb-item>
+  </el-breadcrumb>
   <HelloWorld msg="Welcome to RESUME-GENIEus" />
 
   <router-view />
@@ -70,6 +82,10 @@ export default {
   font-size:xx-large;
   position: absolute;
   top: 0px;
-
-  }
+}
+.breadcrumb {
+  margin: 20px 0 0 0;
+  font-size: xx-large;
+  font-weight: 200;
+}
 </style>

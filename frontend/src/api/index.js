@@ -60,6 +60,15 @@ const createJob = async (data) => {
   }
 };
 
+const createDescription = async (data) => {
+  try {
+    const result = await axios.post('/job_descriptions', data);
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
+
 const taskStatus = async (data) => {
   try {
     const result = await axios.post('/status', data);
@@ -68,7 +77,14 @@ const taskStatus = async (data) => {
     return HandleResponses.Status(error);
   }
 };
-
+const getAllDescriptions = async () => {
+  try {
+    const result = await axios.get('/job_descriptions');
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
 export default {
   setupWallet,
   setupTransaction,
@@ -76,4 +92,6 @@ export default {
   exportTransaction,
   createJob,
   taskStatus,
+  createDescription,
+  getAllDescriptions,
 };

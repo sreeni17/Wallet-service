@@ -3,6 +3,7 @@ import WalletTransactions from './WalletTransactions.vue';
 import Task from './Task.vue';
 import Hire from './Hire.vue';
 import TaskStatus from './TaskStatus.vue';
+import DescriptionResumeUpload from './DescriptionResumeUpload.vue';
 
 const routes = [
   {
@@ -51,6 +52,22 @@ const routes = [
     component: TaskStatus,
     meta: {
       title: 'TaskStatus',
+    },
+  },
+  {
+    path: '/task/status',
+    name: 'TaskStatus',
+    component: TaskStatus,
+    meta: {
+      title: 'TaskStatus',
+    },
+  },
+  {
+    path: '/resume-upload',
+    name: 'Resume Upload',
+    component: DescriptionResumeUpload,
+    meta: {
+      title: 'Resume Upload',
     },
   },
 ];
