@@ -128,9 +128,12 @@ export default {
         payload.additional_info = this.form.additional_info;
         payload.location = this.form.location;
         console.log(payload);
+        const apiData = {
+          job_description: JSON.stringify(payload),
+        };
         if (payload) {
-          const result = await ApiFactory.createDescription(payload);
-          if (result.status === 200) {
+          const result = await ApiFactory.createDescription(apiData);
+          if (result.status === 201) {
             this.$message({
               message: 'created job description successfully',
               type: 'success',

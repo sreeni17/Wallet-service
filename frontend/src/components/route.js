@@ -4,6 +4,7 @@ import Task from './Task.vue';
 import Hire from './Hire.vue';
 import TaskStatus from './TaskStatus.vue';
 import DescriptionResumeUpload from './DescriptionResumeUpload.vue';
+import Reports from './Reports.vue';
 
 const routes = [
   {
@@ -68,6 +69,14 @@ const routes = [
     component: DescriptionResumeUpload,
     meta: {
       title: 'Resume Upload',
+    },
+  },
+  {
+    path: '/reports',
+    name: 'Reports',
+    component: Reports,
+    meta: {
+      title: 'Reports',
     },
   },
 ];

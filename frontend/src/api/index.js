@@ -62,7 +62,7 @@ const createJob = async (data) => {
 
 const createDescription = async (data) => {
   try {
-    const result = await axios.post('/job_descriptions', data);
+    const result = await axios.post('/job', data);
     return result;
   } catch (error) {
     return HandleResponses.Status(error);
@@ -79,7 +79,27 @@ const taskStatus = async (data) => {
 };
 const getAllDescriptions = async () => {
   try {
-    const result = await axios.get('/job_descriptions');
+    const result = await axios.get('/job');
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
+const uploadJobIdResume = async (formData) => {
+  try {
+    const result = await axios.post('/upload-resume', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return result;
+  } catch (error) {
+    return HandleResponses.Status(error);
+  }
+};
+const getReports = async () => {
+  try {
+    const result = await axios.get('/reports');
     return result;
   } catch (error) {
     return HandleResponses.Status(error);
@@ -94,4 +114,6 @@ export default {
   taskStatus,
   createDescription,
   getAllDescriptions,
+  uploadJobIdResume,
+  getReports,
 };

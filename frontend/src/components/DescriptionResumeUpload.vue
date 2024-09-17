@@ -4,31 +4,32 @@
     <div class="left-side">
       <div
         v-for="job in job_descriptions"
-        :key="job.jobId"
+        :key="job.jobid"
         class="card"
         @click="selectCard(job)"
       >
-        {{ job.data }}
+        {{ job.jobid }}-{{ (job.data && job.data.title) || "" }}
       </div>
     </div>
 
     <!-- Right side: Content -->
     <div class="right-side">
       <div v-if="selectedJob">
-        <h2>{{ selectedJob.jobId }}</h2>
-        <p>{{ selectedJob.data }}</p>
+        <h2>{{ selectedJob.jobid }}</h2>
+        <p>Title: {{ selectedJob.data.title }}</p>
+        <p>Experience: {{ selectedJob.data.experience_required }}</p>
+        <p>Additional Info: {{ selectedJob.data.additional_info }}</p>
+        <p>Location: {{ selectedJob.data.location }}</p>
+
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
+          :on-change="handleUpload"
           multiple
           :limit="3"
           :file-list="fileList"
         >
           <p>Upload Resumes</p>
-      &nbsp;
+          &nbsp;
           <el-button size="small" type="primary">
             Click to upload
           </el-button>
@@ -63,6 +64,23 @@ export default {
     await this.getAllDescriptions();
   },
   methods: {
+    async handleUpload(file) {
+      const formData = new FormData();
+      formData.append('file', file.raw);
+      formData.append('jobId', this.selectedJob.jobid);
+      try {
+        ApiFactory.uploadJobIdResume(formData);
+        this.$message({
+          message: 'uploaded resume successfully',
+          type: 'success',
+        });
+      } catch (err) {
+        this.$message({
+          message: 'Something Went Wrong',
+          type: 'error',
+        });
+      }
+    },
     selectCard(job) {
       this.selectedJob = job; // Update selected card when clicked
     },
@@ -70,11 +88,23 @@ export default {
       try {
         const result = await ApiFactory.getAllDescriptions();
         if (result.status === 200) {
-          if (result.data && result.data.files) {
-            this.job_descriptions = result.data.files;
+          if (result.data && result.data) {
+            debugger;
+            result.data.forEach((res) => {
+              const tempObj = {
+                jobid: res.jobid,
+              };
+              if (typeof res.job_description === 'string') {
+                tempObj.data = JSON.parse(res.job_description);
+              }
+              this.job_descriptions.push(tempObj);
+            });
+            this.job_descriptions = [...this.job_descriptions];
           }
         }
+        console.log(this.job_descriptions);
       } catch (err) {
+        console.log(err);
         this.$message({
           message: 'Something Went Wrong',
           type: 'error',

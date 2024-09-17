@@ -13,7 +13,7 @@
     <el-breadcrumb-item :to="{ path: '/resume-upload' }">
       Resumes
     </el-breadcrumb-item>
-    <el-breadcrumb-item>Reports</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/reports' }">Reports</el-breadcrumb-item>
   </el-breadcrumb>
   <HelloWorld msg="Welcome to RESUME-GENIEus" />
 
